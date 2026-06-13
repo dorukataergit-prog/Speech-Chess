@@ -20,13 +20,13 @@ motor = chess.engine.SimpleEngine.popen_uci(
 r = sr.Recognizer()
 
 tas = {
-    "at": "N",
-    "fil": "B",
-    "kale": "R",
-    "vezir": "Q",
-    "şah": "K",
-    "sah": "K"
+    "knight": "N",
+    "bishop": "B",
+    "rook": "R",
+    "queen": "Q",
+    "king": "K"
 }
+
 
 
 def konus(text):
@@ -39,7 +39,7 @@ def dinle():
 
     with sr.Microphone() as source:
 
-        print("\nHamleni söyle:")
+        print("\nSay your move:")
 
         r.adjust_for_ambient_noise(
             source,
@@ -52,10 +52,10 @@ def dinle():
 
         txt = r.recognize_google(
             audio,
-            language="tr-TR"
+            language="en-EN"
         )
 
-        print("Sen:", txt)
+        print("You:", txt)
 
         return txt.lower()
 
@@ -68,10 +68,10 @@ def san_cevir(text):
 
     text = text.lower()
 
-    if text in ["kısa rok"]:
+    if text in ["short castling"]:
         return "O-O"
 
-    if text in ["uzun rok"]:
+    if text in ["long castling"]:
         return "O-O-O"
 
     k = text.split()
@@ -85,7 +85,7 @@ def san_cevir(text):
     return text
 
 
-konus("Stockfish satranç başladı")
+konus("Stockfish chess started. Let's play!")
 
 while not tahta.is_game_over():
 
@@ -106,7 +106,7 @@ while not tahta.is_game_over():
 
     except:
 
-        konus("Geçersiz hamle")
+        konus("Invalid move")
         continue
 
     if tahta.is_game_over():
@@ -129,16 +129,17 @@ while not tahta.is_game_over():
     )
 
     konus(
-        "Ben oynadım " + san
+        "I played " + san
     )
 
 print(
-    "Sonuç:",
+    "Result:",
     tahta.result()
 )
 
 konus(
-    "Oyun bitti"
+    "Game over"
 )
+
 
 motor.quit()
